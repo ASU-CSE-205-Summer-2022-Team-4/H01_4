@@ -16,14 +16,10 @@ public class H01_43 {
     }
 
     private void run() {
-        // TODO Auto-generated method stub
-        String fName = getFileName() + ".java"; // Prompt user for name of Java source code file with .java extension
+        String fName = getFileName() + ".java"; 
         ArrayList<String> fileLines = getFileLines(fName); // Get lines from source code file
-        String textName = fName + ".txt";
-        writeOutputFile(textName, fileLines);
-        // Output contents into new file named the same
-        System.out.println("Printed");
-
+        String textName = fName + ".txt";   // Designate an output file with same name, .txt extension
+        writeOutputFile(textName, fileLines);   // Format lines from source code and write to txt file
     }
 
     private String getFileName() {
@@ -32,7 +28,6 @@ public class H01_43 {
         String fName = userIn.next();
         userIn.close();
         return fName;
-
     }
 
     private ArrayList<String> getFileLines(String fName) {
@@ -47,28 +42,28 @@ public class H01_43 {
         } // end catch
         ArrayList<String> fileLines = new ArrayList<>();
         while (inScan.hasNextLine()) {
-            fileLines.add(inScan.nextLine());
+            fileLines.add(inScan.nextLine());   // populate ArrayList with lines from java file
         } // end while
         inScan.close();
         return fileLines;
     } // end getFileLines
-    
+
     private void writeOutputFile(String fileName, ArrayList<String> lines) {
         File outFile = new File(fileName);
         PrintWriter out;
         try {
             out = new PrintWriter(outFile);
             int lineCounter = 1;
-            while (lineCounter-1<lines.size()) {
+            while (lineCounter - 1 < lines.size()) {    // line counter will be printed starting at 1, but indexing starts at 0
                 out.printf("[%03d] ", lineCounter);
-                out.println(" " + lines.get(lineCounter-1));
+                out.println(" " + lines.get(lineCounter - 1));  // line counter will be printed starting at 1, but indexing starts at 0
                 lineCounter++;
-                }
-            } catch (FileNotFoundException e) {
-                System.out.println("Oops, file not available for writing. Closing the program...");
-                out = null;
-                System.exit(-200);
-            } // end catch
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Oops, file not available for writing. Closing the program...");
+            out = null;
+            System.exit(-200);
+        } // end catch
         out.close();
     } // end writeOutputFile
-} // end class
+} // end H01_43
