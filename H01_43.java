@@ -5,8 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
 /**
- * CLASS: H01_43 
- * AUTHOR: David McConnell, dmcconn7, dmcconn7@asu.edu
+ * CLASS: H01_43 AUTHOR: David McConnell, dmcconn7, dmcconn7@asu.edu
  */
 
 public class H01_43 {
@@ -16,10 +15,10 @@ public class H01_43 {
     }
 
     private void run() {
-        String fName = getFileName() + ".java"; 
+        String fName = getFileName() + ".java";
         ArrayList<String> fileLines = getFileLines(fName); // Get lines from source code file
-        String textName = fName + ".txt";   // Designate an output file with same name, .txt extension
-        writeOutputFile(textName, fileLines);   // Format lines from source code and write to txt file
+        String textName = fName + ".txt"; // Designate an output file with same name, .txt extension
+        writeOutputFile(textName, fileLines); // Format lines from source code and write to txt file
     }
 
     private String getFileName() {
@@ -32,38 +31,33 @@ public class H01_43 {
 
     private ArrayList<String> getFileLines(String fName) {
         File inFile = new File(fName);
-        Scanner inScan;
-        try {
-            inScan = new Scanner(inFile);
+        ArrayList<String> fileLines = new ArrayList<>();
+        try (Scanner inScan = new Scanner(inFile)) {
+            while (inScan.hasNextLine()) {
+                fileLines.add(inScan.nextLine()); // populate ArrayList with lines from java file
+            } // end while
         } catch (FileNotFoundException e) {
             System.out.println("Oops, file not found for reading. Closing the program...");
-            inScan = null;
             System.exit(-100);
-        } // end catch
-        ArrayList<String> fileLines = new ArrayList<>();
-        while (inScan.hasNextLine()) {
-            fileLines.add(inScan.nextLine());   // populate ArrayList with lines from java file
-        } // end while
-        inScan.close();
+        } // end catch. try-with-resources automatically closes Scanner
         return fileLines;
     } // end getFileLines
 
     private void writeOutputFile(String fileName, ArrayList<String> lines) {
         File outFile = new File(fileName);
-        PrintWriter out;
-        try {
-            out = new PrintWriter(outFile);
+        try (PrintWriter out = new PrintWriter(outFile)) {
             int lineCounter = 1;
-            while (lineCounter - 1 < lines.size()) {    // line counter will be printed starting at 1, but indexing starts at 0
+            while (lineCounter - 1 < lines.size()) { // line counter will be printed starting at 1, but indexing starts
+                                                     // at 0
                 out.printf("[%03d] ", lineCounter);
-                out.println(" " + lines.get(lineCounter - 1));  // line counter will be printed starting at 1, but indexing starts at 0
+                out.println(" " + lines.get(lineCounter - 1)); // line counter will be printed starting at 1, but
+                                                               // indexing starts at 0
                 lineCounter++;
-            }
+            } // end while
         } catch (FileNotFoundException e) {
             System.out.println("Oops, file not available for writing. Closing the program...");
-            out = null;
             System.exit(-200);
-        } // end catch
-        out.close();
+        } // end catch. try-with-resources automatically closes PrintWriter
+
     } // end writeOutputFile
 } // end H01_43
